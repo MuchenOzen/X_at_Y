@@ -1,5 +1,8 @@
 package com.or_oz.xiny;
 
+
+
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     MapFragment mMapFragment;
     private GoogleMap mMap;
+    double[] coordinates = new double[2];
 
     public static final int X_IN_Y_LOCATION_PERMISSION = 0;
 
@@ -53,14 +57,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     X_IN_Y_LOCATION_PERMISSION);
         }
 
-
+        coordinates[0] = 29.65;
+        coordinates[1] = -82.32;
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), reportXActivity.class);
+                intent.putExtra("coordinates", coordinates);
+                startActivity(intent);
+
             }
         });
 
