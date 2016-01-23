@@ -18,14 +18,14 @@ public class XSingleton {
         map = new SimpleArrayMap<Location, XItem>();
     }
 
-    public void addItem(String name, String comments, double x, double y) {
+    public void addItem(String name, String comments, double latitude, double longitude) {
 
     }
 
     private class XItem {
         String name;
         String comments;
-
+        //BitmapDescriptor icon;
         double latitude, longitude;
 
     }
