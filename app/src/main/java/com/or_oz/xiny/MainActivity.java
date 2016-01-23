@@ -87,6 +87,11 @@ public class MainActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mLastLocation =  LocationServices.FusedLocationApi.getLastLocation(
+                        mGoogleApiClient);
+                coordinates[0] = mLastLocation.getLatitude();
+                coordinates[1] = mLastLocation.getLongitude();
+
                 Intent intent = new Intent(getApplicationContext(), reportXActivity.class);
                 intent.putExtra("coordinates", coordinates);
                 startActivity(intent);
