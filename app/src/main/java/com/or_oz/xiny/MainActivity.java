@@ -35,6 +35,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements
     double[] coordinates = new double[2];
     GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
-
+    private Marker centerMarker;
 
     //Sign-in error handling
     // Request code to use when launching the resolution activity
@@ -91,10 +92,9 @@ public class MainActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mLastLocation =  LocationServices.FusedLocationApi.getLastLocation(
-                        mGoogleApiClient);
-                coordinates[0] = mLastLocation.getLatitude();
-                coordinates[1] = mLastLocation.getLongitude();
+                LatLng centerLocation = mMap.getCameraPosition().target;
+                coordinates[0] = centerLocation.latitude;
+                coordinates[1] = centerLocation.longitude;
 
 
                 Intent intent = new Intent(getApplicationContext(), reportXActivity.class);
@@ -129,13 +129,13 @@ public class MainActivity extends AppCompatActivity implements
                 mGoogleApiClient);
         if (mLastLocation != null) {
             Log.d("MainActivity_Location", "Got last location");
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 13));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), 13));
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())) // Sets the center of the map to location user
                     .zoom(15) // Sets the zoom
                     .build(); // Creates a CameraPosition from the builder
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
 
 
@@ -150,7 +150,19 @@ public class MainActivity extends AppCompatActivity implements
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setPadding(0, dpToPx(48), 0, 0);
+
         this.updateMap();
+
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition position) {
+                centerMarker.remove();
+                centerMarker = mMap.addMarker( new MarkerOptions()
+                .position(position.target)
+                .title("Create Activity"));
+            }
+        });
+
     }
 
     public int dpToPx(int dp) {
@@ -180,6 +192,9 @@ public class MainActivity extends AppCompatActivity implements
                 mGoogleApiClient);
 
         this.updateCameraToCurrentLocation();
+        this.centerMarker = mMap.addMarker( new MarkerOptions()
+                .position(mMap.getCameraPosition().target)
+                .title("Create Activity"));
     }
 
     @Override
@@ -191,10 +206,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void updateMap(){
         XSingleton singleton = XSingleton.getInstance();
-        ArrayList<XSingleton.XItem> items = singleton.getItems();
-        for (int i = 0; i != items.size(); ++i){
-            mMap.addMarker(items.get(i).getMarker());
-        }
+        singleton.addToMap(mMap);
     }
 
     @Override
@@ -202,6 +214,8 @@ public class MainActivity extends AppCompatActivity implements
         mGoogleApiClient.disconnect();
         super.onStop();
     }
+
+
 
     @Override
     public void onConnectionSuspended(int cause){
@@ -265,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements
             ((MainActivity) getActivity()).onDialogDismissed();
         }
     }
+
 
 
 }

@@ -35,7 +35,7 @@ public class reportXActivity extends AppCompatActivity {
         commentsET = (EditText)findViewById(R.id.commentsEditText);
 
         welcomeTV = (TextView)findViewById(R.id.welcomeTextView);
-        welcomeTV.setText("Welcome to " + coordinates[0] + ", " + coordinates[1]);
+        welcomeTV.setText("You are @ " + coordinates[0] + ", " + coordinates[1]);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_media_play);

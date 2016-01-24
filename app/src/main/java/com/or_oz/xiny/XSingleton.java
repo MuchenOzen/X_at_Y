@@ -34,8 +34,10 @@ public class XSingleton {
 
     }
 
-    public ArrayList<XItem> getItems(){
-        return map;
+    public void addToMap(GoogleMap m){
+        for (int i = 0; i != map.size(); ++i){
+            m.addMarker(map.get(i).getMarker());
+        }
     }
 
     public class XItem {
