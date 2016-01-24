@@ -25,5 +25,15 @@
         android:id="@+id/XSpinner"
         android:layout_below="@+id/welcomeTextView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="57dp"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/commentsEditText"
+        android:ems="100"
+        android:hint="Comments"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements
                 coordinates[0] = mLastLocation.getLatitude();
                 coordinates[1] = mLastLocation.getLongitude();
 
+
                 Intent intent = new Intent(getApplicationContext(), reportXActivity.class);
                 intent.putExtra("coordinates", coordinates);
                 startActivity(intent);
