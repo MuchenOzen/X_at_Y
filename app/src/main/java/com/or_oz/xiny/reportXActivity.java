@@ -1,5 +1,6 @@
 package com.or_oz.xiny;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -35,13 +36,18 @@ public class reportXActivity extends AppCompatActivity {
 
         welcomeTV = (TextView)findViewById(R.id.welcomeTextView);
         welcomeTV.setText("Welcome to " + coordinates[0] + ", " + coordinates[1]);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.ic_media_play);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 submitInformation();
                 Snackbar.make(view, "Thanks for submitting!", Snackbar.LENGTH_LONG)
                         .show();
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }

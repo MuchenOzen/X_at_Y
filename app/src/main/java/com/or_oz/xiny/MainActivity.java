@@ -37,6 +37,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.jar.Manifest;
 
 public class MainActivity extends AppCompatActivity implements
@@ -84,7 +85,9 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.ic_media_play);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setPadding(0, dpToPx(48), 0, 0);
+        this.updateMap();
     }
 
     public int dpToPx(int dp) {
@@ -182,6 +186,15 @@ public class MainActivity extends AppCompatActivity implements
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
+
+    }
+
+    private void updateMap(){
+        XSingleton singleton = XSingleton.getInstance();
+        ArrayList<XSingleton.XItem> items = singleton.getItems();
+        for (int i = 0; i != items.size(); ++i){
+            mMap.addMarker(items.get(i).getMarker());
+        }
     }
 
     @Override

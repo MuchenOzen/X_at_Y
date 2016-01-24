@@ -34,7 +34,11 @@ public class XSingleton {
 
     }
 
-    private class XItem {
+    public ArrayList<XItem> getItems(){
+        return map;
+    }
+
+    public class XItem {
         String name;
         String comments;
         BitmapDescriptor icon;
@@ -62,13 +66,12 @@ public class XSingleton {
             }
         }
 
-        public void setMarker(GoogleMap map){
-            marker = map.addMarker(new MarkerOptions()
-                    .position(new LatLng(latitude, longitude))
-                    .title(name)
-                    .icon(icon)
-                    .snippet(comments));
-
+        public MarkerOptions getMarker(){
+            return new MarkerOptions()
+                    .position(new LatLng(this.latitude, this.longitude))
+                    .title(this.name)
+                    .snippet(this.comments)
+                    .icon(this.icon);
         }
 
     }
