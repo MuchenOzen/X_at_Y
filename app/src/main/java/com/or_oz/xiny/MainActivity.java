@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements
 
         this.requestLocationPermission();
 
+
         if (mGoogleApiClient == null){
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setPadding(0, dpToPx(48), 0, 0);
     }
 
